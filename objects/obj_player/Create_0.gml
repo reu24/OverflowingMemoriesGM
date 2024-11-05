@@ -1,0 +1,31 @@
+/// @description Insert description here
+// You can write your code in this editor
+
+enum STATES {
+	IDLE,
+	WALKING
+}
+
+state = STATES.IDLE;
+
+x_pos = x div TILE_WIDTH;
+x = x_pos * TILE_WIDTH;
+y_pos = y div TILE_HEIGHT;
+y = y_pos * TILE_HEIGHT;
+
+x_from = x_pos;
+y_from = y_pos;
+
+x_to = x_pos;
+y_to = y_pos;
+
+walk_anim_length = 0.5
+walk_anim_time = 0
+
+image_speed = 0;	
+walk_anim_frames = 3;
+
+frames = [1, 0, 2, 0];
+
+var _wall_layer = layer_get_id("Walls");
+tile_map = layer_tilemap_get_id(_wall_layer);
