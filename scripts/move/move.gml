@@ -20,7 +20,7 @@ function move_down() {
 function move(_dx, _dy, _sprite) {
 	if (state == STATES.IDLE) {
 		sprite_index = _sprite;
-		if (!tilemap_get_at_pixel(tile_map, x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT)) {
+		if (place_free(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT) && !place_meeting(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT, tile_map)) {
 			x_from = x_pos;
 			y_from = y_pos;
 		

@@ -38,6 +38,8 @@
   },
   "name":"OverflowingMemories",
   "resources":[
+    {"id":{"name":"obj_alpaka","path":"objects/obj_alpaka/obj_alpaka.yy",},},
+    {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"option_object1","path":"objects/option_object1/option_object1.yy",},},
     {"id":{"name":"option_object2","path":"objects/option_object2/option_object2.yy",},},
