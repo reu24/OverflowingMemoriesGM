@@ -1,12 +1,9 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-enum STATES {
-	IDLE,
-	WALKING
-}
 
-state = STATES.IDLE;
+
+walking_direction = DIRECTION.NONE;
 
 x_pos = x div TILE_WIDTH;
 x = x_pos * TILE_WIDTH;
@@ -23,9 +20,11 @@ walk_anim_length = 0.5
 walk_anim_time = 0
 
 image_speed = 0;	
-walk_anim_frames = 3;
+walk_anim_frames = 4;
 
 frames = [1, 0, 2, 0];
+
+current_direction = DIRECTION.NONE;
 
 var _wall_layer = layer_get_id("Walls");
 tile_map = layer_tilemap_get_id(_wall_layer);

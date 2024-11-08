@@ -1,24 +1,37 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 
-function move_right() {
-	move(1, 0, spr_stefan_walk_right);
+enum DIRECTION {
+	NONE,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
 }
 
-function move_left() {
-	move(-1, 0, spr_stefan_walk_left);
+function move_right(_spr) {
+	move(1, 0, _spr, DIRECTION.RIGHT);
 }
 
-function move_up() {
-	move(0, -1, spr_stefan_walk_up);
+function move_left(_spr) {
+	move(-1, 0, _spr, DIRECTION.LEFT);
 }
 
-function move_down() {
-	move(0, 1, spr_stefan_walk_down);
+function move_up(_spr) {
+	move(0, -1, _spr, DIRECTION.UP);
 }
 
-function move(_dx, _dy, _sprite) {
-	if (state == STATES.IDLE) {
+function move_down(_spr) {
+	move(0, 1, _spr, DIRECTION.DOWN);
+}
+
+enum STATES {
+	IDLE,
+	WALKING
+}
+
+function move(_dx, _dy, _sprite, _dir) {
+	if (walking_direction == DIRECTION.NONE) {
 		sprite_index = _sprite;
 		if (place_free(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT) && !place_meeting(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT, tile_map)) {
 			x_from = x_pos;
@@ -30,7 +43,47 @@ function move(_dx, _dy, _sprite) {
 			x_pos = x_to;
 			y_pos = y_to;
 		
-			state = STATES.WALKING;
+			walking_direction = _dir;
 		}
 	}
+}
+
+function move_animation() {
+	if (walking_direction != DIRECTION.NONE) {
+		if (walk_anim_time > walk_anim_length) {
+			walk_anim_time -= walk_anim_length;
+		}
+		walk_anim_time += delta_time / 1000000;
+	
+		var _walking_progress = walk_anim_time / walk_anim_length;
+		image_index = frames[floor((walk_anim_frames - 1) * min(1, _walking_progress))]
+	
+		if (_walking_progress >= 1) {
+			if (!direction_key_pressed(walking_direction)) {
+				walk_anim_time = 0;
+				_walking_progress = 1;
+				image_index = 0;
+			}
+			walking_direction = DIRECTION.NONE;
+		}
+	
+		var _x = lerp(x_from, x_to, _walking_progress);
+		var _y = lerp(y_from, y_to, _walking_progress);
+	
+		x = _x * TILE_WIDTH;
+		y = _y * TILE_HEIGHT;
+	}
+}
+
+function direction_key_pressed(_dir) {
+	if (_dir == DIRECTION.RIGHT) {
+		return keyboard_check(ord("D"));
+	}
+	if (_dir == DIRECTION.UP) {
+		return keyboard_check(ord("W"));
+	}
+	if (_dir == DIRECTION.DOWN) {
+		return keyboard_check(ord("S"));
+	}
+	return keyboard_check(ord("A"));
 }
