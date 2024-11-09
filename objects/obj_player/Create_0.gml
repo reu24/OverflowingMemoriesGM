@@ -16,13 +16,13 @@ y_from = y_pos;
 x_to = x_pos;
 y_to = y_pos;
 
-walk_anim_length = 0.5
+walk_anim_length = 0.7
 walk_anim_time = 0
 
 image_speed = 0;	
-walk_anim_frames = 4;
+walk_anim_frames = 5;
 
-frames = [1, 0, 2, 0];
+frames = [0, 1, 0, 2, 0];
 
 current_direction = DIRECTION.NONE;
 
