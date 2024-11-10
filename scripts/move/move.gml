@@ -33,7 +33,8 @@ enum STATES {
 function move(_dx, _dy, _sprite, _dir) {
 	if (walking_direction == DIRECTION.NONE) {
 		sprite_index = _sprite;
-		if (place_free(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT) && !place_meeting(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT, tile_map)) {
+		look_direction = _dir;
+		if (walk_place_free(x + _dx * TILE_WIDTH, y + _dy * TILE_HEIGHT)) {
 			x_from = x_pos;
 			y_from = y_pos;
 		
@@ -59,7 +60,7 @@ function move_animation() {
 		image_index = frames[floor((walk_anim_frames - 1) * min(1, _walking_progress))]
 	
 		if (_walking_progress >= 1) {
-			if (!direction_key_pressed(walking_direction)) {
+			if (!direction_key_pressed(walking_direction) && walk_place_free(x_to + player_look_x(), y_to + player_look_y())) {
 				walk_anim_time = 0;
 				_walking_progress = 1;
 				image_index = 0;
@@ -86,4 +87,28 @@ function direction_key_pressed(_dir) {
 		return keyboard_check(ord("S"));
 	}
 	return keyboard_check(ord("A"));
+}
+
+function player_look_x() {
+	if (obj_player.look_direction == DIRECTION.RIGHT) {
+		return TILE_WIDTH;
+	}
+	if (obj_player.look_direction == DIRECTION.LEFT) {
+		return -TILE_WIDTH;
+	}
+	return 0;
+}
+
+function player_look_y() {
+	if (obj_player.look_direction == DIRECTION.UP) {
+		return -TILE_WIDTH;
+	}
+	if (obj_player.look_direction == DIRECTION.DOWN) {
+		return TILE_WIDTH;
+	}
+	return 0;
+}
+
+function walk_place_free(_x, _y) {
+	return place_free(_x, _y) && !place_meeting(_x, _y, tile_map);
 }

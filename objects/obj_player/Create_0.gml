@@ -4,6 +4,7 @@
 
 
 walking_direction = DIRECTION.NONE;
+look_direction = DIRECTION.DOWN;
 
 x_pos = x div TILE_WIDTH;
 x = x_pos * TILE_WIDTH;
